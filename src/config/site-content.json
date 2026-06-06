@@ -2,7 +2,7 @@
 	"meta": {
 		"title": "JiKeGe - 极客鸽",
 		"description": "JiKeGe  的个人博客，记录前端开发、探索、笔记。前端 UI 更新代码仓库。",
-		"username": "肖宇辉"
+		"username": "XiaoYuHui"
 	},
 	"theme": {
 		"colorBrand": "#35bfab",
@@ -46,17 +46,17 @@
 	"currentBackgroundImageId": "",
 	"socialButtons": [
 		{
-			"id": "github",
-			"type": "github",
-			"value": "https://github.com/jike-ge",
-			"label": "Github",
-			"order": 3
-		},
-		{
 			"id": "juejin",
 			"type": "wechat",
 			"value": "/images/social-buttons/20740c3fdc04e8ca.jpg",
 			"label": "稀土掘金",
+			"order": 1
+		},
+		{
+			"id": "github",
+			"type": "github",
+			"value": "https://github.com/jike-ge",
+			"label": "Github",
 			"order": 2
 		},
 		{
@@ -64,7 +64,7 @@
 			"type": "email",
 			"value": "saryn_cn@qq.com",
 			"label": "",
-			"order": 1
+			"order": 3
 		}
 	],
 	"clockShowSeconds": true,
