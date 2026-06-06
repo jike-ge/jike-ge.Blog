@@ -1,8 +1,8 @@
 {
-  "title": "个人图床最佳方案：Cloudflare R2+PicGo",
+  "title": "Ubuntu 22.04 关闭图形界面",
   "tags": [],
-  "date": "2023-03-06T11:13",
-  "summary": "如果你正在计划搭建一个博客，或者是个人网站，那一个稳定的图床是必不可少的。那么......",
+  "date": "2023-03-24T12:17",
+  "summary": "打开终端，输入以下命令关闭图形界面：\n\n```shell\nsudo systemctl disable ",
   "hidden": false,
-  "category": "总结"
+  "category": "技术"
 }
