@@ -67,11 +67,11 @@
 			"order": 3
 		}
 	],
-	"clockShowSeconds": true,
-	"summaryInContent": true,
+	"clockShowSeconds": false,
+	"summaryInContent": false,
 	"isCachePem": false,
 	"hideEditButton": false,
-	"enableCategories": true,
+	"enableCategories": false,
 	"currentHatIndex": 3,
 	"hatFlipped": false,
 	"enableChristmas": false,
