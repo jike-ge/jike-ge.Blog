@@ -1,5 +1,14 @@
 [
   {
+    "slug": "js-Ubuntu",
+    "title": "Ubuntu 22.04 关闭图形界面",
+    "tags": [],
+    "date": "2025-03-13T12:46",
+    "summary": "",
+    "hidden": false,
+    "category": ""
+  },
+  {
     "slug": "js-PicGo",
     "title": "个人图床最佳方案：Cloudflare R2+PicGo",
     "tags": [],
