@@ -34,9 +34,13 @@
 		{
 			"id": "1c7b726fe720679b",
 			"url": "/images/art/1c7b726fe720679b.jpg"
+		},
+		{
+			"id": "1aa761843c488a34",
+			"url": "/images/art/1aa761843c488a34.jpg"
 		}
 	],
-	"currentArtImageId": "cat",
+	"currentArtImageId": "1aa761843c488a34",
 	"backgroundImages": [
 		{
 			"id": "",
@@ -71,7 +75,7 @@
 	"summaryInContent": false,
 	"isCachePem": false,
 	"hideEditButton": false,
-	"enableCategories": false,
+	"enableCategories": true,
 	"currentHatIndex": 3,
 	"hatFlipped": false,
 	"enableChristmas": false,
