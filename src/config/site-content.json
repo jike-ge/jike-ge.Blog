@@ -1,26 +1,26 @@
 {
 	"meta": {
-		"title": "JiKeGe - 极客鸽",
+		"title": "JiKe.Ge",
 		"description": "JiKeGe  的个人博客，记录前端开发、探索、笔记。前端 UI 更新代码仓库。",
-		"username": "XiaoYuHui"
+		"username": "JiKe.Ge"
 	},
 	"theme": {
-		"colorBrand": "#35bfab",
-		"colorPrimary": "#334f52",
-		"colorSecondary": "#7b888e",
-		"colorBrandSecondary": "#1fc9e7",
-		"colorBg": "#eeeeee",
+		"colorBrand": "#de4331",
+		"colorPrimary": "#4E3F42",
+		"colorSecondary": "#8b7667",
+		"colorBrandSecondary": "#FCC841",
+		"colorBg": "#d4e8f3",
 		"colorBorder": "#ffffff",
-		"colorCard": "#ffffff66",
+		"colorCard": "#ffffff99",
 		"colorArticle": "#ffffffcc"
 	},
 	"backgroundColors": [
-		"#EDDD62",
-		"#9EE7D1",
-		"#84D68A",
-		"#EDDD62",
-		"#88E6E5",
-		"#a7f3d0"
+		"#FCC841",
+		"#DFEFFC",
+		"#DEDE92",
+		"#DE4331",
+		"#FE9750",
+		"#FCC841"
 	],
 	"artImages": [
 		{
@@ -34,13 +34,9 @@
 		{
 			"id": "1c7b726fe720679b",
 			"url": "/images/art/1c7b726fe720679b.jpg"
-		},
-		{
-			"id": "1aa761843c488a34",
-			"url": "/images/art/1aa761843c488a34.jpg"
 		}
 	],
-	"currentArtImageId": "1aa761843c488a34",
+	"currentArtImageId": "cat",
 	"backgroundImages": [
 		{
 			"id": "",
@@ -75,7 +71,7 @@
 	"summaryInContent": false,
 	"isCachePem": false,
 	"hideEditButton": false,
-	"enableCategories": true,
+	"enableCategories": false,
 	"currentHatIndex": 3,
 	"hatFlipped": false,
 	"enableChristmas": false,
