@@ -45,13 +45,9 @@
 		{
 			"id": "",
 			"url": ""
-		},
-		{
-			"id": "f0bb4f995492f89a",
-			"url": "/images/background/f0bb4f995492f89a.jpg"
 		}
 	],
-	"currentBackgroundImageId": "f0bb4f995492f89a",
+	"currentBackgroundImageId": "",
 	"socialButtons": [
 		{
 			"id": "email",
