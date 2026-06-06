@@ -43,10 +43,10 @@
 	},
 	"socialButtons": {
 		"width": 315,
-		"height": 48,
+		"height": 50,
 		"order": 6,
-		"offsetX": null,
-		"offsetY": null,
+		"offsetX": -193,
+		"offsetY": 178,
 		"enabled": true
 	},
 	"shareCard": {
