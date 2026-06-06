@@ -1,137 +1,276 @@
-#概述
-LNMP 是指 Linux、Nginx、MySQL（或 MariaDB）、PHP 组成的服务器架构，广泛用于部署动态网站。以下是基于 Ubuntu 20.04/22.04 系统的详细搭建步骤。
-#一、前期准备
-##更新系统包
-确保系统软件包为最新版本：
+## 概述
+
+LAMP 是指 Linux + Apache + MySQL + PHP 的完整网站服务器环境。本教程将指导您在 Ubuntu 系统上搭建完整的 LAMP 环境。
+
+## 系统要求
+
+- Ubuntu 18.04 或更高版本
+- 具有 sudo 权限的用户账户
+- 稳定的网络连接
+
+## 步骤 1：更新系统包
+
 ```shell
-sudo apt update && sudo apt upgrade -y
+sudo apt update
+sudo apt upgrade -y
 ```
-##安装必要依赖
+
+## 步骤 2：安装 Apache
+
+### 安装 Apache2
+
 ```shell
-sudo apt install -y curl wget vim
+sudo apt install apache2 -y
 ```
-##关闭防火墙（可选，新手推荐）
-生产环境建议配置具体规则，测试环境可临时关闭：
+
+### 启动并设置开机自启
+
 ```shell
-sudo ufw disable
+sudo systemctl start apache2
+sudo systemctl enable apache2
 ```
-#二、安装 Nginx（网页服务器）
-Nginx 负责处理 HTTP 请求并返回网页内容，是 LNMP 架构的前端服务器。
-##1.安装 Nginx
+
+### 验证安装
+
+在浏览器中访问 `http://your-server-ip`，如果看到 Apache 默认页面，说明安装成功。
+
+### 调整防火墙（如启用）
+
 ```shell
-sudo apt install -y nginx
+sudo ufw allow 'Apache Full'
 ```
-##2.启动并设置开机自启
+
+## 步骤 3：安装 MySQL
+
+### 安装 MySQL Server
+
 ```shell
-sudo systemctl start nginx
-sudo systemctl enable nginx
+sudo apt install mysql-server -y
 ```
-##3.验证安装
-- 查看 Nginx 状态：sudo systemctl status nginx（显示 active (running) 即为正常）
-- 在浏览器访问服务器 IP，若显示 "Welcome to nginx!" 页面，说明安装成功
-#三、安装 MySQL / MariaDB（数据库）
-Ubuntu 默认源中已用 MariaDB 替代 MySQL，两者兼容性良好，这里以 MariaDB 为例。
-##1.安装 MariaDB
-```shell
-sudo apt install -y mariadb-server
-```
-##2.启动并设置开机自启
-```shell
-sudo systemctl start mariadb
-sudo systemctl enable mariadb
-```
-##3.安全配置（重要）
-运行官方安全脚本，设置 root 密码、禁用匿名用户等：
+
+### 安全配置 MySQL
+
 ```shell
 sudo mysql_secure_installation
 ```
-按提示操作：
-- 输入当前 root 密码（初始为空，直接回车）
-- 选择设置 root 密码（输入 Y 并设置强密码）
-- 依次输入 Y 禁用匿名用户、禁止 root 远程登录、删除测试数据库
-##4.验证登录
-```shell
-mysql -u root -p
-```
-输入设置的密码，成功进入 MariaDB 终端即表示正常（输入 exit 退出）。
-#四、安装 PHP（动态脚本处理器）
-PHP 负责处理动态内容，需安装 PHP-FPM（FastCGI 进程管理器）与 Nginx 配合。
-##1.安装 PHP 及必要扩展
-Ubuntu 20.04 默认 PHP 版本为 7.4，22.04 为 8.1，这里安装常用扩展：
-```shell
-sudo apt install -y php-fpm php-mysql php-cli php-gd php-curl php-mbstring php-xml
-```
-##2.查看 PHP 版本
-```shell
-php -v
-```
-##3.启动并设置开机自启
-```shell
-sudo systemctl start php8.1-fpm  # 注意版本号，如 php7.4-fpm
-sudo systemctl enable php8.1-fpm
-```
-##4.验证 PHP-FPM 状态
-```shell
-sudo systemctl status php8.1-fpm
-```
-#五、配置 Nginx 解析 PHP
-Nginx 本身不处理 PHP 代码，需通过配置将 .php 请求转发给 PHP-FPM 处理。
-##1.创建网站目录
-```shell
-sudo mkdir -p /var/www/lnmp-test
-sudo chown -R $USER:$USER /var/www/lnmp-test  # 赋予当前用户权限
-```
-##2.创建 Nginx 配置文件
-```shell
-sudo vim /etc/nginx/sites-available/lnmp-test
-```
-粘贴以下内容（注意修改 PHP 版本号）：
-```conf
-nginx
-server {
-    listen 80;
-    server_name 你的服务器IP或域名;  # 如 192.168.1.100 或 example.com
-    root /var/www/lnmp-test;
-    index index.php index.html index.htm;
 
-    location / {
-        try_files $uri $uri/ =404;
-    }
+按照提示完成以下安全设置：
 
-    # 处理 PHP 请求
-    location ~ \.php$ {
-        include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/run/php/php8.1-fpm.sock;  # 注意PHP版本号
-    }
+- 设置 root 密码
+- 移除匿名用户
+- 禁止 root 远程登录
+- 移除测试数据库
+- 重新加载权限表
 
-    # 禁止访问 .htaccess 文件
-    location ~ /\.ht {
-        deny all;
-    }
-}
-```
-##3.启用配置并测试
+### 启动并设置开机自启
+
 ```shell
-sudo ln -s /etc/nginx/sites-available/lnmp-test /etc/nginx/sites-enabled/
-sudo nginx -t  # 检查配置是否有误
-sudo systemctl restart nginx  # 重启 Nginx 生效
+sudo systemctl start mysql
+sudo systemctl enable mysql
 ```
-#六、测试 LNMP 环境
-##1.创建 PHP 测试文件
+
+## 步骤 4：安装 PHP
+
+### 安装 PHP 及常用扩展
+
 ```shell
-echo "<?php phpinfo(); ?>" > /var/www/lnmp-test/info.php
+sudo apt install php libapache2-mod-php php-mysql php-curl php-gd php-mbstring php-xml php-xmlrpc php-soap php-intl php-zip -y
 ```
-##2.访问测试页面
-在浏览器输入 `http://你的服务器IP/info.php`，若显示 PHP 信息页面（包含版本、模块等信息），说明 LNMP 环境搭建成功。
-##3.删除测试文件（安全建议）
-测试完成后删除 info.php：
+
+### 配置 PHP
+
+编辑 PHP 配置文件：
+
 ```shell
-rm /var/www/lnmp-test/info.php
+sudo nano /etc/php/7.4/apache2/php.ini
 ```
-七、常用命令汇总
-| 服务                                                         | 启动                              | 停止                             | 重启                                | 状态查看                           |
-| ------------------------------------------------------------ | --------------------------------- | -------------------------------- | ----------------------------------- | ---------------------------------- |
-| Nginx                                                        | `sudo systemctl start nginx`      | `sudo systemctl stop nginx`      | `sudo systemctl restart nginx`      | `sudo systemctl status nginx`      |
-| MariaDB                                                      | `sudo systemctl start mariadb`    | `sudo systemctl stop mariadb`    | `sudo systemctl restart mariadb`    | `sudo systemctl status mariadb`    |
-| PHP-FPM                                                      | `sudo systemctl start php8.1-fpm` | `sudo systemctl stop php8.1-fpm` | `sudo systemctl restart php8.1-fpm` | `sudo systemctl status php8.1-fpm` |
-| 至此，Ubuntu 系统的 LNMP 环境已搭建完成，可用于部署 WordPress、Discuz 等 PHP 应用。 |                                   |                                  |                                     |                                    |
+
+（注意：版本号可能不同，请根据实际安装的 PHP 版本调整）
+
+建议修改以下配置：
+
+```ini
+file_uploads = On
+allow_url_fopen = On
+memory_limit = 256M
+upload_max_filesize = 100M
+max_execution_time = 300
+date.timezone = Asia/Shanghai
+```
+
+### 重启 Apache 使配置生效
+
+```shell
+sudo systemctl restart apache2
+```
+
+## 步骤 5：测试 PHP
+
+### 创建测试文件
+
+```shell
+sudo nano /var/www/html/info.php
+```
+
+### 添加以下内容
+
+```php
+<?php
+phpinfo();
+?>
+```
+
+### 访问测试
+
+在浏览器中访问 `http://your-server-ip/info.php`，应该能看到 PHP 信息页面。
+
+**重要**：测试完成后请删除此文件以确保安全：
+
+```shell
+sudo rm /var/www/html/info.php
+```
+
+## 步骤 6：配置虚拟主机（可选）
+
+### 创建网站目录
+
+```shell
+sudo mkdir -p /var/www/example.com/public_html
+```
+
+### 设置目录权限
+
+```shell
+sudo chown -R www-data:www-data /var/www/example.com
+sudo chmod -R 755 /var/www/example.com
+```
+
+### 创建虚拟主机配置文件
+
+```shell
+sudo nano /etc/apache2/sites-available/example.com.conf
+```
+
+### 添加以下内容
+
+```apache
+<VirtualHost *:80>
+    ServerAdmin admin@example.com
+    ServerName example.com
+    ServerAlias www.example.com
+    DocumentRoot /var/www/example.com/public_html
+    
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+    
+    <Directory /var/www/example.com/public_html>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+```
+
+### 启用站和重写模块
+
+```shell
+sudo a2ensite example.com.conf
+sudo a2enmod rewrite
+sudo systemctl restart apache2
+```
+
+## 步骤 7：安装 phpMyAdmin（可选）
+
+### 安装 phpMyAdmin
+
+```shell
+sudo apt install phpmyadmin -y
+```
+
+在安装过程中：
+
+- 选择 `apache2` 作为 web 服务器
+- 选择 `是` 来配置 dbconfig-common
+- 设置 phpMyAdmin 的数据库密码
+
+### 创建符号链接（如未自动创建）
+
+```shell
+sudo ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
+```
+
+### 访问 phpMyAdmin
+
+在浏览器中访问 `http://your-server-ip/phpmyadmin`
+
+## 步骤 8：安全加固
+
+### 配置 MySQL 远程访问（如需要）
+
+```shell
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+```
+
+将 `bind-address` 从 `127.0.0.1` 改为 `0.0.0.0`（如需要远程访问）
+
+### 创建专用 MySQL 用户
+
+```sql
+CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON database_name.* TO 'username'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+## 常用管理命令
+
+### Apache 服务管理
+
+```shell
+sudo systemctl start apache2      # 启动
+sudo systemctl stop apache2       # 停止
+sudo systemctl restart apache2    # 重启
+sudo systemctl reload apache2     # 重载配置
+sudo systemctl status apache2     # 查看状态
+```
+
+### MySQL 服务管理
+
+```shell
+sudo systemctl start mysql        # 启动
+sudo systemctl stop mysql         # 停止
+sudo systemctl restart mysql      # 重启
+sudo systemctl status mysql       # 查看状态
+```
+
+## 故障排除
+
+### 检查服务状态
+
+```shell
+sudo systemctl status apache2
+sudo systemctl status mysql
+```
+
+### 查看日志文件
+
+```shell
+# Apache 错误日志
+sudo tail -f /var/log/apache2/error.log
+
+# MySQL 错误日志
+sudo tail -f /var/log/mysql/error.log
+```
+
+### 测试 PHP 配置
+
+```shell
+php -v                          # 查看 PHP 版本
+php -m                          # 查看已加载的模块
+sudo apache2ctl configtest      # 测试 Apache 配置
+```
+
+## 总结
+
+至此，您已在 Ubuntu 系统上成功搭建了 LAMP 环境。您现在可以开始部署网站应用程序了。记得定期更新系统和软件包以确保安全性。
+
+**注意**：在生产环境中，请务必配置适当的安全措施，包括防火墙、SSL 证书和定期备份。
