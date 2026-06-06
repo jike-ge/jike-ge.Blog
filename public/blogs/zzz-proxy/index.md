@@ -1,276 +1,52 @@
-## 概述
+## 1．非中立性
 
-LAMP 是指 Linux + Apache + MySQL + PHP 的完整网站服务器环境。本教程将指导您在 Ubuntu 系统上搭建完整的 LAMP 环境。
+本站采用多种方式（包括而不限于文字、图片、视频、音频、引用或/和其他资料）传递信息，但不能保证上述信息具有一般中立性，即不能保证上述信息传达的理念，言论，方法，行为或其他方面等符合中立性。恰恰相反，本站传达的信息往往具有明显的非中立倾向。
 
-## 系统要求
+## 2．非准确性
 
-- Ubuntu 18.04 或更高版本
-- 具有 sudo 权限的用户账户
-- 稳定的网络连接
+本站采用多种方式（包括而不限于文字、图片、视频、音频、引用或/和其他资料）传递信息。信息媒介具有选择性表达信息的特点，本站无法保证信息媒介的准确性，亦不能保证信息的准确性。
 
-## 步骤 1：更新系统包
+## 3. 非盈利性
 
-```shell
-sudo apt update
-sudo apt upgrade -y
-```
+本站采用多种方式（包括而不限于文字、图片、视频、音频、引用或/和其他资料）传递信息，上述信息及其载体具有非盈利性。
 
-## 步骤 2：安装 Apache
+## 4. 权利声明
 
-### 安装 Apache2
+1.若非特别注明，胖辉的奇妙小屋(包括而不限于jikege.cn、yuhiro.cn等，此处简称为“本站”)资料均适用于以下声明。
+2.本站引用资源会尽最大可能标明出处及著作权所有者，但不能保证对于所有资源都可声明。
+3.上述资料(2)的著作权所有者会用如下方式标明：图片描述、URL链接、文字等。
+4.本站遵守CC BY-NC-SA 4.0 CN协议，您可自由分发和演绎本站内容，只需保留本站署名并非商业使用。
+4.本站使用的所有资料（私有、公开）均在中华人民共和国现行著作权法或/和其他法律规定下使用。
 
-```shell
-sudo apt install apache2 -y
-```
+## 5. 侵权联系
 
-### 启动并设置开机自启
+邮箱：[saryn_cn@qq.com](mailto:saryn_cn@qq.com)
+E-Mail:[saryn_cn@qq.com](mailto:saryn_cn@qq.com)
 
-```shell
-sudo systemctl start apache2
-sudo systemctl enable apache2
-```
+在收到通知的48小时内，本站将删除争议内容。
+We will remove the content in question within 48 hours。
 
-### 验证安装
+## 6. 法律解释
 
-在浏览器中访问 `http://your-server-ip`，如果看到 Apache 默认页面，说明安装成功。
+《中华人民共和国著作权法》
+在下列情况下使用作品，可以不经著作权人许可，不向其支付报酬，但应当指明作者姓名、作品名称，并且不得侵犯著作权人依照本法享有的其他权利： 　　
+（一）为个人学习、研究或者欣赏，使用他人已经发表的作品； 　　
+（二）为介绍、评论某一作品或者说明某一问题，在作品中适当引用他人已经发表的作品； 　　
+（三）为报道时事新闻，在报纸、期刊、广播电台、电视台等媒体中不可避免地再现或者引用已经发表的作品； 　　
+（四）报纸、期刊、广播电台、电视台等媒体刊登或者播放其他报纸、期刊、广播电台、电视台等媒体已经发表的关于政治、经济、宗教问题的时事性文章，但作者声明不许刊登、播放的除外； 　　
+（五）报纸、期刊、广播电台、电视台等媒体刊登或者播放在公众集会上发表的讲话，但作者声明不许刊登、播放的除外； 　　
 
-### 调整防火墙（如启用）
+ 
 
-```shell
-sudo ufw allow 'Apache Full'
-```
-
-## 步骤 3：安装 MySQL
-
-### 安装 MySQL Server
-
-```shell
-sudo apt install mysql-server -y
-```
-
-### 安全配置 MySQL
-
-```shell
-sudo mysql_secure_installation
-```
-
-按照提示完成以下安全设置：
-
-- 设置 root 密码
-- 移除匿名用户
-- 禁止 root 远程登录
-- 移除测试数据库
-- 重新加载权限表
-
-### 启动并设置开机自启
-
-```shell
-sudo systemctl start mysql
-sudo systemctl enable mysql
-```
-
-## 步骤 4：安装 PHP
-
-### 安装 PHP 及常用扩展
-
-```shell
-sudo apt install php libapache2-mod-php php-mysql php-curl php-gd php-mbstring php-xml php-xmlrpc php-soap php-intl php-zip -y
-```
-
-### 配置 PHP
-
-编辑 PHP 配置文件：
-
-```shell
-sudo nano /etc/php/7.4/apache2/php.ini
-```
-
-（注意：版本号可能不同，请根据实际安装的 PHP 版本调整）
-
-建议修改以下配置：
-
-```ini
-file_uploads = On
-allow_url_fopen = On
-memory_limit = 256M
-upload_max_filesize = 100M
-max_execution_time = 300
-date.timezone = Asia/Shanghai
-```
-
-### 重启 Apache 使配置生效
-
-```shell
-sudo systemctl restart apache2
-```
-
-## 步骤 5：测试 PHP
-
-### 创建测试文件
-
-```shell
-sudo nano /var/www/html/info.php
-```
-
-### 添加以下内容
-
-```php
-<?php
-phpinfo();
-?>
-```
-
-### 访问测试
-
-在浏览器中访问 `http://your-server-ip/info.php`，应该能看到 PHP 信息页面。
-
-**重要**：测试完成后请删除此文件以确保安全：
-
-```shell
-sudo rm /var/www/html/info.php
-```
-
-## 步骤 6：配置虚拟主机（可选）
-
-### 创建网站目录
-
-```shell
-sudo mkdir -p /var/www/example.com/public_html
-```
-
-### 设置目录权限
-
-```shell
-sudo chown -R www-data:www-data /var/www/example.com
-sudo chmod -R 755 /var/www/example.com
-```
-
-### 创建虚拟主机配置文件
-
-```shell
-sudo nano /etc/apache2/sites-available/example.com.conf
-```
-
-### 添加以下内容
-
-```apache
-<VirtualHost *:80>
-    ServerAdmin admin@example.com
-    ServerName example.com
-    ServerAlias www.example.com
-    DocumentRoot /var/www/example.com/public_html
-    
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-    
-    <Directory /var/www/example.com/public_html>
-        Options Indexes FollowSymLinks
-        AllowOverride All
-        Require all granted
-    </Directory>
-</VirtualHost>
-```
-
-### 启用站和重写模块
-
-```shell
-sudo a2ensite example.com.conf
-sudo a2enmod rewrite
-sudo systemctl restart apache2
-```
-
-## 步骤 7：安装 phpMyAdmin（可选）
-
-### 安装 phpMyAdmin
-
-```shell
-sudo apt install phpmyadmin -y
-```
-
-在安装过程中：
-
-- 选择 `apache2` 作为 web 服务器
-- 选择 `是` 来配置 dbconfig-common
-- 设置 phpMyAdmin 的数据库密码
-
-### 创建符号链接（如未自动创建）
-
-```shell
-sudo ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
-```
-
-### 访问 phpMyAdmin
-
-在浏览器中访问 `http://your-server-ip/phpmyadmin`
-
-## 步骤 8：安全加固
-
-### 配置 MySQL 远程访问（如需要）
-
-```shell
-sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
-```
-
-将 `bind-address` 从 `127.0.0.1` 改为 `0.0.0.0`（如需要远程访问）
-
-### 创建专用 MySQL 用户
-
-```sql
-CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
-GRANT ALL PRIVILEGES ON database_name.* TO 'username'@'localhost';
-FLUSH PRIVILEGES;
-```
-
-## 常用管理命令
-
-### Apache 服务管理
-
-```shell
-sudo systemctl start apache2      # 启动
-sudo systemctl stop apache2       # 停止
-sudo systemctl restart apache2    # 重启
-sudo systemctl reload apache2     # 重载配置
-sudo systemctl status apache2     # 查看状态
-```
-
-### MySQL 服务管理
-
-```shell
-sudo systemctl start mysql        # 启动
-sudo systemctl stop mysql         # 停止
-sudo systemctl restart mysql      # 重启
-sudo systemctl status mysql       # 查看状态
-```
-
-## 故障排除
-
-### 检查服务状态
-
-```shell
-sudo systemctl status apache2
-sudo systemctl status mysql
-```
-
-### 查看日志文件
-
-```shell
-# Apache 错误日志
-sudo tail -f /var/log/apache2/error.log
-
-# MySQL 错误日志
-sudo tail -f /var/log/mysql/error.log
-```
-
-### 测试 PHP 配置
-
-```shell
-php -v                          # 查看 PHP 版本
-php -m                          # 查看已加载的模块
-sudo apache2ctl configtest      # 测试 Apache 配置
-```
-
-## 总结
-
-至此，您已在 Ubuntu 系统上成功搭建了 LAMP 环境。您现在可以开始部署网站应用程序了。记得定期更新系统和软件包以确保安全性。
-
-**注意**：在生产环境中，请务必配置适当的安全措施，包括防火墙、SSL 证书和定期备份。
+（六）为学校课堂教学或者科学研究，翻译或者少量复制已经发表的作品，供教学或者科研人员使用，但不得出版发行；
+（七）国家机关为执行公务在合理范围内使用已经发表的作品； 　　
+（八）图书馆、档案馆、纪念馆、博物馆、美术馆等为陈列或者保存版本的需要，复制本馆收藏的作品； 　　
+（九）免费表演已经发表的作品，该表演未向公众收取费用，也未向表演者支付报酬； 　　
+（十）对设置或者陈列在室外公共场所的艺术作品进行临摹、绘画、摄影、录像； 　　
+（十一）将中国公民、法人或者其他组织已经发表的以汉语言文字创作的作品翻译成少数民族语言文字作品在国内出版发行； 　　
+（十二）将已经发表的作品改成盲文出版。 　　前款规定适用于对出版者、表演者、录音录像制作者、广播电台、电视台的权利的限制。
+《中华人民共和国著作权法实施条例》 　　
+第十九条　使用他人作品的，应当指明作者姓名、作品名称；但是，当事人另有约定或者由于作品使用方式的特性无法指明的除外。 第二十条　著作权法所称已经发表的作品，是指著作权人自行或者许可他人公之于众的作品。 　
+第二十一条　依照著作权法有关规定，使用可以不经著作权人许可的已经发表的作品的，不得影响该作品的正常使用，也不得不合理地损害著作权人的合法利益。
+《最高人民法院关于审理著作权民事纠纷案件适用法律若干问题的解释》 　
+第十八条　著作权法第二十二条第十项规定的室外公共场所的艺术作品，是指设置或者陈列在室外社会公众活动处所的雕塑、绘画、书法等艺术作品。对前款规定艺术作品的临摹、绘画、摄影、录像人，可以对其成果以合理的方式和范围再行使用，不构成侵权。
