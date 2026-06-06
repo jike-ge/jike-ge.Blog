@@ -1,10 +1,10 @@
 [
   {
     "slug": "zzz-proxy",
-    "title": "Ubuntu 22.04 关闭图形界面",
+    "title": "Nginx 负载均衡配置",
     "tags": [],
-    "date": "2023-03-24T12:17",
-    "summary": "打开终端，输入以下命令关闭图形界面：\n\n```shell\nsudo systemctl disable ",
+    "date": "2025-07-06T12:18",
+    "summary": " 测试域名：a.com\n- 主服务器 A：192.168.5.149\n- 服务器 B：192.168.5.27\n",
     "hidden": false,
     "category": "技术"
   }
