@@ -1,5 +1,14 @@
 [
   {
+    "slug": "Ubuntu-LNMP",
+    "title": "LNMP 环境搭建（Ubuntu 系统）",
+    "tags": [],
+    "date": "2025-03-27T12:46",
+    "summary": "",
+    "hidden": false,
+    "category": ""
+  },
+  {
     "slug": "nginx-LoadBalancing",
     "title": "Nginx 负载均衡配置",
     "tags": [],
