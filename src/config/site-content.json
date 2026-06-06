@@ -34,16 +34,24 @@
 		{
 			"id": "1c7b726fe720679b",
 			"url": "/images/art/1c7b726fe720679b.jpg"
+		},
+		{
+			"id": "1aa761843c488a34",
+			"url": "/images/art/1aa761843c488a34.jpg"
 		}
 	],
-	"currentArtImageId": "cat",
+	"currentArtImageId": "1aa761843c488a34",
 	"backgroundImages": [
 		{
 			"id": "",
 			"url": ""
+		},
+		{
+			"id": "f0bb4f995492f89a",
+			"url": "/images/background/f0bb4f995492f89a.jpg"
 		}
 	],
-	"currentBackgroundImageId": "",
+	"currentBackgroundImageId": "f0bb4f995492f89a",
 	"socialButtons": [
 		{
 			"id": "email",
